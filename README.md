@@ -46,9 +46,10 @@ Plot the performance plot
 Evaluate the model with the testing data.
 
 ## PROGRAM
-### Name:KAVIYA SNEKA M
-### Register Number: 212223040091
-```python
+### Name: Pavitra J
+### Register Number: 212224110043
+```
+python
 class Neuralnet(nn.Module):
    def __init__(self):
         super().__init__()
