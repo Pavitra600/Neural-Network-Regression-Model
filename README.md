@@ -49,64 +49,112 @@ Evaluate the model with the testing data.
 ### Name: Pavitra J
 ### Register Number: 212224110043
 ```
-python
-class Neuralnet(nn.Module):
-   def __init__(self):
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+
+dataset1 = pd.read_csv('sample.csv (1).xls')
+X = dataset1[['Input']].values
+y = dataset1[['Output']].values
+
+dataset1.head(5)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=33)
+
+schaler = MinMaxScaler()
+X_train = schaler.fit_transform(X_train)
+X_test = schaler.transform(X_test)
+
+X_train_tensor = torch.tensor(X_train, dtype=torch.float32)
+y_train_tensor = torch.tensor(y_train, dtype=torch.float32).view(-1, 1)
+X_test_tensor = torch.tensor(X_test, dtype=torch.float32)
+y_test_tensor = torch.tensor(y_test, dtype=torch.float32).view(-1, 1)
+
+# Name: Pavitra J
+# Register Number: 212224110043
+class NeuralNet(nn.Module):
+  def __init__(self):
         super().__init__()
-        self.n1=nn.Linear(1,10)
-        self.n2=nn.Linear(10,20)
-        self.n3=nn.Linear(20,1)
-        self.relu=nn.ReLU()
-        self.history={'loss': []}
-   def forward(self,x):
-        x=self.relu(self.n1(x))
-        x=self.relu(self.n2(x))
-        x=self.n3(x)
+        self.fc1 = nn.Linear(1,8)
+        self.fc2 = nn.Linear(8,10)
+        self.fc3 = nn.Linear(10,1)
+        self.relu = nn.ReLU()
+        self.history = {'loss': []}
+
+  def forward(self, x):
+        x = self.relu(self.fc1(x))
+        x = self.relu(self.fc2(x))
+        x = self.fc3(x)
         return x
 
-
 # Initialize the Model, Loss Function, and Optimizer
-nithi=NeuralNet()
+pavitra = NeuralNet()
 criterion = nn.MSELoss()
-optimizer = optim.RMSprop(nithi.parameters(),lr=0.001)
+optimizer = optim.RMSprop(pavitra.parameters(), lr=0.001)
 
-def train_model(nithi, X_train, y_train, criterion, optimizer, epochs=1000):
-    # initialize history before loop
-    nithi.history = {'loss': []}
-
+# Name: Pavitra J
+# Register Number: 212224110043
+def train_model(pavitra, X_train, y_train, criterion, optimizer, epochs=2000):
     for epoch in range(epochs):
         optimizer.zero_grad()
-        outputs = nithi(X_train)
-        loss = criterion(outputs, y_train)
+        loss = criterion(pavitra(X_train), y_train)
         loss.backward()
         optimizer.step()
 
-        # record loss
-        nithi.history['loss'].append(loss.item())
+
+        # Append loss inside the loop
+        jisha.history['loss'].append(loss.item())
 
         if epoch % 200 == 0:
             print(f'Epoch [{epoch}/{epochs}], Loss: {loss.item():.6f}')
 
 
+train_model(pavitra, X_train_tensor, y_train_tensor, criterion, optimizer)
+
+with torch.no_grad():
+    test_loss = criterion(pavitra(X_test_tensor), y_test_tensor)
+    print(f'Test Loss: {test_loss.item():.6f}')
+
+loss_df = pd.DataFrame(pavitra.history)
+
+import matplotlib.pyplot as plt
+print("\nName: Pavitra J")
+print("Register Number:212224110043")
+loss_df.plot()
+plt.xlabel("Epochs")
+plt.ylabel("Loss")
+plt.title("Loss during Training")
+plt.show()
+
+X_n1_1 = torch.tensor([[9]], dtype=torch.float32)
+prediction = pavitra(torch.tensor(schaler.transform(X_n1_1), dtype=torch.float32)).item()
+print("\nName: Pavitra J")
+print("Register Number:212224110043")
+print(f'Prediction: {prediction}')
+
+
 ```
 ## Dataset Information
 
-<img width="191" height="529" alt="image" src="https://github.com/user-attachments/assets/1cb9e9e8-6c25-402f-8e80-bd74f74f2c58" />
+<img width="473" height="372" alt="image" src="https://github.com/user-attachments/assets/df7997aa-a92d-4cfd-99b9-71b3803e93e4" />
+
 
 ## OUTPUT
-<img width="480" height="125" alt="image" src="https://github.com/user-attachments/assets/473153db-4ac6-4de3-94ba-7f769372f2f6" />
+<img width="356" height="233" alt="image" src="https://github.com/user-attachments/assets/fd7a6158-b360-4271-a546-859627668056" />
+
 
 ### Training Loss Vs Iteration Plot
 
-<img width="1011" height="615" alt="image" src="https://github.com/user-attachments/assets/cd8b63a0-448e-4505-92ac-82df4293d2eb" />
+<img width="689" height="540" alt="image" src="https://github.com/user-attachments/assets/c86f64ff-8077-440b-8303-fe277995f5a3" />
+
 
 ### New Sample Data Prediction
-```
-X_n1_1 = torch.tensor([[9]], dtype=torch.float32)
-prediction = nithi(torch.tensor(scaler.transform(X_n1_1), dtype=torch.float32)).item()
-print(f'Prediction: {prediction}')
-```
-<img width="912" height="52" alt="image" src="https://github.com/user-attachments/assets/6e904fcc-409c-43bf-ae28-064e3c41a6d5" />
+
+<img width="297" height="73" alt="image" src="https://github.com/user-attachments/assets/edf334ed-aed0-4c82-89b8-dd4a891b84fe" />
+
 
 ## RESULT
 
