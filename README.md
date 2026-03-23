@@ -56,7 +56,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 
-dataset1 = pd.read_csv('sample.csv (1).xls')
+dataset1 = pd.read_csv('sample.csv.xls')
 X = dataset1[['Input']].values
 y = dataset1[['Output']].values
 
@@ -106,7 +106,7 @@ def train_model(pavitra, X_train, y_train, criterion, optimizer, epochs=2000):
 
 
         # Append loss inside the loop
-        jisha.history['loss'].append(loss.item())
+        pavitra.history['loss'].append(loss.item())
 
         if epoch % 200 == 0:
             print(f'Epoch [{epoch}/{epochs}], Loss: {loss.item():.6f}')
